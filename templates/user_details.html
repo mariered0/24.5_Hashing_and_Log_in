@@ -1,0 +1,48 @@
+{% extends 'base.html'  %}
+
+{% block title %}User Details{% endblock %}
+
+{% block content %}
+<h1 class="display-1">User Details</h1>
+<div class="card">
+    <div class="card-body">
+
+        {% if session['username'] == user.username %}
+        <h1 class="card-title">{{user.first_name}} {{user.last_name}}</h1>
+        <br>
+        <h3 class="card-subtitle mb-2">Username: {{user.username}}</h3>
+        <h3 class="card-subtitle mb-2">{{user.email}}</h3>
+
+       
+        <a href="/users/{{user.username}}/feedback/add" class="btn btn-sm btn-info">Add Feedback</a>
+
+        <form style="display:inline" action="/users/{{user.username}}">
+            <button class="btn btn-sm btn-danger">Delete Account</button>
+        </form>
+        
+        </li>
+    </div>
+</div>
+
+<div id="feedback-container">
+    {% for feedback in user.feedback %}
+
+    <div class="card my-4">
+        <div class="card-body">
+            <h5 class="card-title text-info">
+                {{feedback.title}}
+
+            <a href="/feedback/{{feedback.id}}/update" style="display:inline"> <button class="btn btn-sm btn-info"><i class="fas fa-pencil"></i></button></a>
+
+            <form style="display:inline" action="/feedback/{{feedback.id}}/delete" method="POST">
+              <button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
+            </form>
+        </h5>
+            <p class="card-text">{{feedback.content}}</p>
+        </div>
+    </div>
+
+    {% endfor %}
+</div>
+{% endif %}
+{% endblock %}
